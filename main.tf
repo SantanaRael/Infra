@@ -4,6 +4,13 @@ provider "aws" {
 
 resource "aws_security_group" "web-sg" {
   name = "api-fiap-sg"
+
+  lifecycle {
+    ignore_changes = [
+      ingress, egress // Ignorar mudanças nas regras de ingresso e egresso
+    ]
+  }
+
   ingress {
     from_port   = 3000
     to_port     = 3000
@@ -19,8 +26,12 @@ resource "aws_security_group" "web-sg" {
   }
 }
 
-data "aws_security_group" "web-sg" {
+data "aws_security_group" "existing_web_sg" {
   name = aws_security_group.web-sg.name
+
+  depends_on = [
+    aws_security_group.web-sg // Dependência para garantir que o grupo de segurança seja criado antes de verificar se ele existe
+  ]
 }
 
 resource "aws_eks_cluster" "my_cluster" {
@@ -29,7 +40,7 @@ resource "aws_eks_cluster" "my_cluster" {
 
   vpc_config {
     subnet_ids         = ["subnet-07394ab2e56618d4a", "subnet-093db08a009f47bb9"]
-    security_group_ids = [data.aws_security_group.web-sg.id]
+    security_group_ids = [data.aws_security_group.existing_web_sg.id]
   }
 }
 
