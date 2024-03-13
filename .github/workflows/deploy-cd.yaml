@@ -43,3 +43,10 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
+
+      - name: Update kubeconfig
+        run: |
+          aws eks --region 	us-east-1 update-kubeconfig --name cluster-terraform
+          kubectl get nodes
+
+
