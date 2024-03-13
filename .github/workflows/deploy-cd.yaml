@@ -1,0 +1,33 @@
+name: Deploy to Kubernetes
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Configure kubectl
+        uses: azure/kubectl@v1
+        with:
+          azcliversion: 'latest'
+          kubectl_version: 'latest'
+      
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 'latest'
+
+      - name: Terraform Init
+        run: terraform init
+
+
+      - name: Deploy application
+        run: |
+          # Comandos para fazer o deploy da sua aplicação no cluster Kubernetes

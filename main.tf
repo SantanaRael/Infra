@@ -2,13 +2,34 @@ provider "aws" {
   region = "us-east-1"
 }
 
+resource "aws_security_group" "web-sg" {
+  name = "api-fiap-sg"
+  ingress {
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+data "aws_security_group" "web-sg" {
+  name = aws_security_group.web-sg.name
+}
+
 resource "aws_eks_cluster" "my_cluster" {
   name     = "cluster-terraform"
   role_arn = "arn:aws:iam::058264149904:role/LabRole"
 
   vpc_config {
     subnet_ids         = ["subnet-07394ab2e56618d4a", "subnet-093db08a009f47bb9"]
-    security_group_ids = ["sg-0ccda97af534c642a"]
+    security_group_ids = [data.aws_security_group.web-sg.id]
   }
 }
 
@@ -27,4 +48,8 @@ resource "aws_eks_node_group" "my_node_group" {
     max_size     = 3
   }
   disk_size = 20
+
+  remote_access {
+    ec2_ssh_key = "meupc"
+  }
 }
