@@ -1,4 +1,4 @@
-name: Deploy to Kubernetes
+name: Destroy Terraform Resources
 
 on:
   push:
@@ -6,21 +6,13 @@ on:
       - main
 
 jobs:
-  deploy:
+  destroy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      
-      - name: Install kubectl
-        run: |
-          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-          sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-          chmod +x kubectl
-          mkdir -p ~/.local/bin
-          mv ./kubectl ~/.local/bin/kubectl
-      
+
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v1
         with:
@@ -34,19 +26,9 @@ jobs:
           mkdir -p ~/.aws
           echo "${{ secrets.AWS_CREDENTIALS }}" > ~/.aws/credentials
           chmod 600 ~/.aws/credentials
-      
+
       - name: Terraform Init
         run: terraform init
 
-      - name: Terraform Plan
-        run: terraform plan
-
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
-
-      - name: Update kubeconfig
-        run: |
-          aws eks --region 	us-east-1 update-kubeconfig --name cluster-terraform
-          kubectl get nodes
-
-
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
