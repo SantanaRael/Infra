@@ -38,13 +38,10 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
-      - name: Check if cluster exists
-        id: check_cluster
-        run: echo "::set-output name=cluster_exists::$(terraform output -json cluster_name | jq -r '. != null')"
-        continue-on-error: true
+      - name: Terraform Plan
+        run: terraform plan
 
       - name: Terraform Apply
-        if: steps.check_cluster.outputs.cluster_exists == 'false'
         run: terraform apply -auto-approve
 
       - name: Update kubeconfig
