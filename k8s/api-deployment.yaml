@@ -37,8 +37,8 @@ spec:
               memory: '128Mi' # Memória inicial / MI = milicores (1 core = 1000 milicores)
               cpu: '100m' # CPU inicial
             limits:
-              memory: '128Mi' # Limite máximo de memória
-              cpu: '200m' # Limite máximo de CPU  / M = megabytes
+              memory: '628Mi' # Limite máximo de memória
+              cpu: '300m' # Limite máximo de CPU  / M = megabytes
 ---
 apiVersion: v1
 kind: Service
