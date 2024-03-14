@@ -40,8 +40,7 @@ resource "aws_eks_node_group" "my_node_group" {
   node_group_name = "my-nodegroup-terraform"
   subnet_ids      = ["subnet-07394ab2e56618d4a", "subnet-093db08a009f47bb9"]
   instance_types  = ["t3.medium"]
-  ami             = "ami-07d9b9ddc6cd8dd30" 
-  node_role_arn   = "arn:aws:iam::058264149904:role/LabRole"
+  
   scaling_config {
     min_size     = 1
     desired_size = 1
@@ -51,5 +50,24 @@ resource "aws_eks_node_group" "my_node_group" {
 
   remote_access {
     ec2_ssh_key = "meupc"
+  }
+
+  launch_template {
+    name = "my-nodegroup-launch-template"
+    version = "$Latest"
+
+    block_device_mappings {
+      device_name = "/dev/xvda"
+      ebs {
+        volume_size = 20
+      }
+    }
+
+    capacity_type = "ON_DEMAND"
+
+    instance_type = "t3.medium"
+
+    # Especifique a AMI aqui
+    ami_id = "ami-07d9b9ddc6cd8dd30"
   }
 }
