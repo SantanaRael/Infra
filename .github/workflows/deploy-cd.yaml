@@ -48,6 +48,6 @@ jobs:
         run: |
           aws eks --region us-east-1 update-kubeconfig --name cluster-terraform
           kubectl get nodes
-          sudo update-binfmts --enable qemu-aarch65
+          sudo update-binfmts --enable qemu-aarch64
           kubectl apply -f k8s/postgres-deployment.yaml
           kubectl apply -f k8s/api-deployment.yaml
