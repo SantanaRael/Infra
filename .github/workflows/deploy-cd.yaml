@@ -49,11 +49,7 @@ jobs:
           aws eks --region us-east-1 update-kubeconfig --name cluster-terraform
           kubectl get nodes
 
-      - name: Install QEMU user-static
-        run: sudo apt-get update && sudo apt-get install -y qemu-user-static
-
       - name: Apply Kubernetes manifests
         run: |
-          sudo update-binfmts --enable qemu-aarch64
           kubectl apply -f k8s/postgres-deployment.yaml
           kubectl apply -f k8s/api-deployment.yaml
