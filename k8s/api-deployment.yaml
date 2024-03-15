@@ -51,4 +51,4 @@ spec:
     - protocol: TCP
       port: 30303
       targetPort: 3000
-  type: NodePort
+  type: LoadBalancer
