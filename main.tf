@@ -5,8 +5,8 @@ provider "aws" {
 resource "aws_security_group" "web-sg" {
   name = "api-fiap-sg"
   ingress {
-    from_port   = 3000
-    to_port     = 3000
+    from_port   = 30303
+    to_port     = 30303
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -52,4 +52,13 @@ resource "aws_eks_node_group" "my_node_group" {
   remote_access {
     ec2_ssh_key = "meupc"
   }
+}
+
+data "aws_eks_cluster" "my_cluster_info" {
+  name = aws_eks_cluster.my_cluster.name
+}
+
+# Gerando o link para o Load Balancer no console após a criação do cluster
+output "load_balancer_console_link" {
+  value = "http://${data.aws_eks_cluster.my_cluster_info.endpoint}:30303/api-docs/"
 }
