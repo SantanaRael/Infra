@@ -23,7 +23,7 @@ resource "aws_security_group" "web-sg" {
   }
 }
 
-data "aws_security_group" "web-sg" {
+data "aws_security_group" "web_sg_data" {
   name = aws_security_group.web-sg.name
 }
 
@@ -33,7 +33,7 @@ resource "aws_eks_cluster" "my_cluster" {
 
   vpc_config {
     subnet_ids         = ["subnet-0ea240321ca6afa7d", "subnet-01f0097f96d15788c"]
-    security_group_ids = [data.aws_security_group.web-sg.id]
+    security_group_ids = [data.aws_security_group.web_sg_data.id]
   }
 }
 
@@ -61,5 +61,3 @@ resource "aws_eks_node_group" "my_node_group" {
 data "aws_eks_cluster" "my_cluster_info" {
   name = aws_eks_cluster.my_cluster.name
 }
-
-
