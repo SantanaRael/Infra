@@ -2,7 +2,7 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_lb" "existing" {
+data "aws_lb" "existing" {
   arn = "arn:aws:elasticloadbalancing:us-east-1:851725364689:loadbalancer/app/fiap-postech-lb/342bf6b3f4b249e4"
 }
 
