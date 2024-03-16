@@ -25,7 +25,7 @@ data "aws_security_group" "web-sg" {
 
 resource "aws_eks_cluster" "my_cluster" {
   name     = "cluster-terraform"
-  role_arn = "arn:aws:iam::058264149904:role/LabRole"
+  role_arn = "arn:aws:iam::851725364689:role/LabRole"
 
   vpc_config {
     subnet_ids         = ["subnet-07394ab2e56618d4a", "subnet-093db08a009f47bb9"]
