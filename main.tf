@@ -58,7 +58,3 @@ data "aws_eks_cluster" "my_cluster_info" {
   name = aws_eks_cluster.my_cluster.name
 }
 
-# Gerando o link para o Load Balancer no console após a criação do cluster
-output "load_balancer_console_link" {
-  value = "http://${data.aws_eks_cluster.my_cluster_info.endpoint}:30303/api-docs/"
-}
