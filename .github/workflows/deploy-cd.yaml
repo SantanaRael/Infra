@@ -47,7 +47,7 @@ jobs:
       - name: Update kubeconfig
         run: |
           aws eks --region us-east-1 update-kubeconfig --name cluster-terraform
-          kubectl get nodes
+          kubectl get all
 
       - name: Apply Kubernetes manifests
         run: |
