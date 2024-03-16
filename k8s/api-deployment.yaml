@@ -53,3 +53,4 @@ spec:
       targetPort: 3000
   type: LoadBalancer
   loadBalancerIP: a4f14816b19934e0c9526b3ee5156524
+  
