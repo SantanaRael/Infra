@@ -38,10 +38,10 @@ resource "aws_eks_node_group" "my_node_group" {
 
   cluster_name    = aws_eks_cluster.my_cluster.name
   node_group_name = "my-nodegroup-terraform"
-  subnet_ids      = ["subnet-07394ab2e56618d4a", "subnet-093db08a009f47bb9"]
+  subnet_ids      = ["subnet-0ea240321ca6afa7d", "subnet-01f0097f96d15788c"]
   instance_types  = ["m6g.medium"]
   ami_type        = "AL2_ARM_64"
-  node_role_arn   = "arn:aws:iam::058264149904:role/LabRole"
+  node_role_arn   = "arn:aws:iam::851725364689:role/LabRole"
   scaling_config {
     min_size     = 1
     desired_size = 1
