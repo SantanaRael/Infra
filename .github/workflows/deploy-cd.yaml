@@ -54,5 +54,5 @@ jobs:
           sleep 10s
           kubectl apply -f k8s/api-deployment.yaml
           sleep 10s
-          echo "http://$(kubectl get svc api-service -o=jsonpath='{.status.loadBalancer.ingress[0].hostname}'):30303/api-docs/"
+          echo "http://$(kubectl get svc api-service -o=jsonpath='{.status.loadBalancer.ingress[0].hostname}'):30303/api/clients"
           
