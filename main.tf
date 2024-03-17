@@ -2,10 +2,6 @@ provider "aws" {
   region = "us-east-1"
 }
 
-data "aws_lb" "existing" {
-  arn = "arn:aws:elasticloadbalancing:us-east-1:851725364689:loadbalancer/app/fiap-postech-lb/342bf6b3f4b249e4"
-}
-
 resource "aws_security_group" "web-sg" {
   name = "api-fiap-sg"
   ingress {
@@ -23,17 +19,17 @@ resource "aws_security_group" "web-sg" {
   }
 }
 
-data "aws_security_group" "web_sg_data" {
+data "aws_security_group" "web-sg" {
   name = aws_security_group.web-sg.name
 }
 
 resource "aws_eks_cluster" "my_cluster" {
   name     = "cluster-terraform"
-  role_arn = "arn:aws:iam::851725364689:role/LabRole"
+  role_arn = "arn:aws:iam::058264149904:role/LabRole"
 
   vpc_config {
-    subnet_ids         = ["subnet-0ea240321ca6afa7d", "subnet-01f0097f96d15788c"]
-    security_group_ids = [data.aws_security_group.web_sg_data.id]
+    subnet_ids         = ["subnet-07394ab2e56618d4a", "subnet-093db08a009f47bb9"]
+    security_group_ids = [data.aws_security_group.web-sg.id]
   }
 }
 
@@ -42,10 +38,10 @@ resource "aws_eks_node_group" "my_node_group" {
 
   cluster_name    = aws_eks_cluster.my_cluster.name
   node_group_name = "my-nodegroup-terraform"
-  subnet_ids      = ["subnet-0ea240321ca6afa7d", "subnet-01f0097f96d15788c"]
+  subnet_ids      = ["subnet-07394ab2e56618d4a", "subnet-093db08a009f47bb9"]
   instance_types  = ["m6g.medium"]
   ami_type        = "AL2_ARM_64"
-  node_role_arn   = "arn:aws:iam::851725364689:role/LabRole"
+  node_role_arn   = "arn:aws:iam::058264149904:role/LabRole"
   scaling_config {
     min_size     = 1
     desired_size = 1
@@ -61,3 +57,4 @@ resource "aws_eks_node_group" "my_node_group" {
 data "aws_eks_cluster" "my_cluster_info" {
   name = aws_eks_cluster.my_cluster.name
 }
+
