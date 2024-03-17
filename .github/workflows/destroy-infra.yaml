@@ -26,12 +26,12 @@ jobs:
 
       - name: Delete Node Group
         run: |
-          aws eks delete-nodegroup --cluster-name cluster-terraform --nodegroup-name my-nodegroup-terraform
+          aws eks delete-nodegroup --cluster-name cluster-terraform --nodegroup-name my-nodegroup-terraform &
           
       - name: Delete Cluster
         run: |
-          aws eks delete-cluster --name cluster-terraform
+          aws eks delete-cluster --name cluster-terraform &
 
       - name: Delete Security Group
         run: |
-          aws ec2 delete-security-group --group-name api-fiap-sg
+          aws ec2 delete-security-group --group-name api-fiap-sg &
