@@ -50,9 +50,13 @@ jobs:
 
       - name: Apply Kubernetes manifests
         run: |
+          apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+          sleep 10s
           kubectl apply -f k8s/postgres-deployment.yaml
           sleep 10s
           kubectl apply -f k8s/api-deployment.yaml
           sleep 10s
+          kubectl apply -f k8s/hpa-api.yaml
+          kubectl apply -f k8s/hpa-postgres.yaml
           echo "http://$(kubectl get svc api-service -o=jsonpath='{.status.loadBalancer.ingress[0].hostname}'):30303/api/clients"
           
