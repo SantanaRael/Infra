@@ -40,7 +40,6 @@ spec:
               memory: '628Mi' # Limite máximo de memória
               cpu: '300m' # Limite máximo de CPU  / M = megabytes
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
