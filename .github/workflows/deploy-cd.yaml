@@ -50,9 +50,9 @@ jobs:
 
       - name: Apply Kubernetes manifests
         run: |
-          apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+          kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
           sleep 10s
-          kubectl apply -f k8s/postgres-deployment.yaml
+          kubectl apply -f k8s/postgres-deployment.yamlaws eks delete-cluster --name cluster-terraform &
           sleep 10s
           kubectl apply -f k8s/api-deployment.yaml
           sleep 10s
