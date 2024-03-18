@@ -24,15 +24,6 @@ jobs:
           echo "${{ secrets.AWS_CREDENTIALS }}" > ~/.aws/credentials
           chmod 600 ~/.aws/credentials
 
-      - name: Create script file
-        run: |
-          echo 'aws eks delete-nodegroup --cluster-name cluster-terraform --nodegroup-name my-nodegroup-terraform &' > destroy_infra.txt
-          echo 'sleep 300s' >> destroy_infra.txt
-          echo 'aws eks delete-cluster --name cluster-terraform &' >> destroy_infra.txt
-          echo 'sleep 300s' >> destroy_infra.txt
-          echo 'aws ec2 delete-security-group --group-name api-fiap-sg &' >> destroy_infra.txt
-          echo 'sleep 10s' >> destroy_infra.txt
-          chmod +x destroy_infra.txt
 
       - name: Run script
         run: source destroy_infra.txt
