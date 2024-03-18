@@ -26,4 +26,4 @@ jobs:
 
 
       - name: Run script
-        run: ls
+        run: source destroy-infra.txt
