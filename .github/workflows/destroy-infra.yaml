@@ -26,13 +26,13 @@ jobs:
 
       - name: Create script file
         run: |
-          echo 'aws eks delete-nodegroup --cluster-name cluster-terraform --nodegroup-name my-nodegroup-terraform &' > destroy_infra.sh
-          echo 'sleep 300s' >> destroy_infra.sh
-          echo 'aws eks delete-cluster --name cluster-terraform &' >> destroy_infra.sh
-          echo 'sleep 300s' >> destroy_infra.sh
-          echo 'aws ec2 delete-security-group --group-name api-fiap-sg &' >> destroy_infra.sh
-          echo 'sleep 10s' >> destroy_infra.sh
-          chmod +x destroy_infra.sh
+          echo 'aws eks delete-nodegroup --cluster-name cluster-terraform --nodegroup-name my-nodegroup-terraform &' > destroy_infra.txt
+          echo 'sleep 300s' >> destroy_infra.txt
+          echo 'aws eks delete-cluster --name cluster-terraform &' >> destroy_infra.txt
+          echo 'sleep 300s' >> destroy_infra.txt
+          echo 'aws ec2 delete-security-group --group-name api-fiap-sg &' >> destroy_infra.txt
+          echo 'sleep 10s' >> destroy_infra.txt
+          chmod +x destroy_infra.txt
 
       - name: Run script
-        run: ./destroy_infra.sh
+        run: ./destroy_infra.txt
