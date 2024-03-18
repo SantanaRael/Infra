@@ -1,0 +1,8 @@
+aws eks delete-nodegroup --cluster-name cluster-terraform --nodegroup-name my-nodegroup-terraform &
+sleep 600s
+
+aws eks delete-cluster --name cluster-terraform &
+sleep 300s
+
+aws ec2 delete-security-group --group-name api-fiap-sg &
+sleep 10s
