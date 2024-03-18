@@ -35,4 +35,4 @@ jobs:
           chmod +x destroy_infra.txt
 
       - name: Run script
-        run: ./destroy_infra.txt
+        run: source destroy_infra.txt
