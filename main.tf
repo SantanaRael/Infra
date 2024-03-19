@@ -57,3 +57,4 @@ resource "aws_eks_node_group" "my_node_group" {
 data "aws_eks_cluster" "my_cluster_info" {
   name = aws_eks_cluster.my_cluster.name
 }
+
