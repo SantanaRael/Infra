@@ -25,10 +25,10 @@ data "aws_security_group" "web-sg" {
 
 resource "aws_eks_cluster" "my_cluster" {
   name     = "cluster-terraform"
-  role_arn = "arn:aws:iam::058264149904:role/LabRole"
+  role_arn = "arn:aws:iam::230189589638:role/LabRole"
 
   vpc_config {
-    subnet_ids         = ["subnet-07394ab2e56618d4a", "subnet-093db08a009f47bb9"]
+    subnet_ids         = ["subnet-04e612811e4ed875a", "subnet-0464b84c2b0a47125"]
     security_group_ids = [data.aws_security_group.web-sg.id]
   }
 }
@@ -38,10 +38,10 @@ resource "aws_eks_node_group" "my_node_group" {
 
   cluster_name    = aws_eks_cluster.my_cluster.name
   node_group_name = "my-nodegroup-terraform"
-  subnet_ids      = ["subnet-07394ab2e56618d4a", "subnet-093db08a009f47bb9"]
+  subnet_ids      = ["subnet-04e612811e4ed875a", "subnet-0464b84c2b0a47125"]
   instance_types  = ["m6g.medium"]
   ami_type        = "AL2_ARM_64"
-  node_role_arn   = "arn:aws:iam::058264149904:role/LabRole"
+  node_role_arn   = "arn:aws:iam::230189589638:role/LabRole"
   scaling_config {
     min_size     = 1
     desired_size = 1
@@ -50,7 +50,7 @@ resource "aws_eks_node_group" "my_node_group" {
   disk_size = 20
 
   remote_access {
-    ec2_ssh_key = "meupc"
+    ec2_ssh_key = "cluster-fiap"
   }
 }
 
