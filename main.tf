@@ -2,6 +2,7 @@ provider "aws" {
   region = "us-east-1"
 }
 
+
 resource "aws_security_group" "web-sg" {
   name = "api-fiap-sg"
   ingress {
