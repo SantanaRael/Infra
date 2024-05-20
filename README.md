@@ -1,12 +1,11 @@
  # Infraestrutura na AWS com Kubernetes
 
-Este repositório tem como objetivo centralizar todos os arquivos YAML para aplicação no Kubernetes e fazer a implementação da infraestrutura na AWS com Terraform.
+Este repositório tem como objetivo fazer a implementação da infraestrutura na AWS com Terraform.
 
 ## Configuração do Repositório
 
 A configuração da infraestrutura e a aplicação no Kubernetes são realizadas por meio de pipelines automatizadas. Não é necessário ter o Terraform ou configurações da AWS na máquina local.
 
-A credencial da AWS é configurada dentro das configurações do repositório. Certifique-se de atualizá-la conforme necessário.
 
 ## Atualização do Código `main.tf`
 
@@ -32,11 +31,11 @@ role_arn = "arn:aws:iam::123456789012:role/your-role-name"
 
 Certifique-se de salvar as alterações após atualizar o código `main.tf`.
 
-## Implementação da Infraestrutura
+## Configuração
+Antes de executar a pipeline, certifique-se de configurar as seguintes variáveis de ambiente:
 
-A infraestrutura na AWS e a aplicação no Kubernetes são realizadas por meio de pipelines configuradas. As pipelines aplicam automaticamente as alterações necessárias.
+ - AWS_CREDENTIALS: Credenciais de acesso à AWS.
+   
+Certifique-se de que essas variáveis de ambiente estejam configuradas corretamente para garantir o funcionamento adequado da pipeline.
 
 
-## Licença
-
-Este projeto está licenciado sob a Licença MIT - consulte o arquivo [LICENSE](LICENSE) para obter detalhes.
