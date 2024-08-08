@@ -58,12 +58,6 @@ jobs:
           mkdir -p ~/.local/bin
           mv ./kubectl ~/.local/bin/kubectl
 
-      - name: Configure AWS credentials
-        run: |
-          mkdir -p ~/.aws
-          echo "${{ secrets.AWS_CREDENTIALS }}" > ~/.aws/credentials
-          chmod 600 ~/.aws/credentials
-
       - name: Update kubeconfig
         run: |
           aws eks --region us-east-1 update-kubeconfig --name cluster-terraform
@@ -71,6 +65,8 @@ jobs:
       - name: Apply RabbitMQ manifests 
         run: |
           kubectl apply -f k8s/rabbitmq-deployment.yaml
+          kubectl apply -f k8s/rabbitmq-pvc.yaml
+          kubectl apply -f k8s/rabbitmq-pv.yaml
           echo "http://$(kubectl get svc rabbitmq-service -o=jsonpath='{.status.loadBalancer.ingress[0].hostname}'):15672"
 
   destroy:

@@ -18,6 +18,11 @@ spec:
       containers:
       - name: rabbitmq
         image: rabbitmq:3-management
+        resources:
+          limits:
+            memory: "512Mi"
+          requests:
+            memory: "256Mi"
         ports:
         - containerPort: 5672  
         - containerPort: 15672
@@ -26,18 +31,14 @@ spec:
           value: "guest"
         - name: RABBITMQ_DEFAULT_PASS
           value: "guest"
-        resources:
-          limits:
-            memory: "512Mi"
-          requests:
-            memory: "256Mi"
         volumeMounts:
         - name: rabbitmq-storage
           mountPath: /var/lib/rabbitmq
-      volumes:
+      volumes:  
       - name: rabbitmq-storage
         persistentVolumeClaim:
           claimName: rabbitmq-pvc
+
 ---
 
 apiVersion: v1
@@ -50,10 +51,12 @@ spec:
   selector:
     app: rabbitmq
   ports:
-    - protocol: TCP
+    - name: amqp  # Nome adicionado para a porta 5672
+      protocol: TCP
       port: 5672
       targetPort: 5672
-    - protocol: TCP
+    - name: management  # Nome adicionado para a porta 15672
+      protocol: TCP
       port: 15672
       targetPort: 15672
   type: LoadBalancer
