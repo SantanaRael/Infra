@@ -1,0 +1,91 @@
+name: Create and Destroy infra
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Action to perform'
+        required: true
+        default: 'deploy'
+        type: choice
+        options:
+          - deploy
+          - destroy
+
+jobs:
+  deploy:
+    if: github.event.inputs.action == 'deploy' || github.event.inputs.action == ''
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Install AWS CLI
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install --update
+
+      - name: Configure AWS credentials
+        run: |
+          mkdir -p ~/.aws
+          echo "${{ secrets.AWS_CREDENTIALS }}" > ~/.aws/credentials
+          chmod 600 ~/.aws/credentials
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 'latest'
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+
+  destroy:
+    if: github.event.inputs.action == 'destroy'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Install AWS CLI
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install --update
+
+      - name: Configure AWS credentials
+        run: |
+          mkdir -p ~/.aws
+          echo "${{ secrets.AWS_CREDENTIALS }}" > ~/.aws/credentials
+          chmod 600 ~/.aws/credentials
+
+      - name: Verify Cluster and Nodegroup
+        run: |
+          aws eks list-clusters --region us-east-1
+          aws eks list-nodegroups --cluster-name cluster-terraform --region us-east-1
+
+      - name: Delete Nodegroup
+        run: |
+          aws eks delete-nodegroup --cluster-name cluster-terraform --nodegroup-name my-nodegroup-terraform --region us-east-1
+          sleep 600s
+
+      - name: Delete Cluster
+        run: |
+          aws eks delete-cluster --name cluster-terraform --region us-east-1
+          sleep 300s
+
+      - name: Delete Security Group
+        run: |
+          aws ec2 delete-security-group --group-name api-fiap-sg --region us-east-1
+          sleep 10s
