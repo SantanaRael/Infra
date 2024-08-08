@@ -34,10 +34,10 @@ spec:
         volumeMounts:
         - name: rabbitmq-storage
           mountPath: /var/lib/rabbitmq
-        volumes:
-        - name: rabbitmq-storage
-          persistentVolumeClaim:
-            claimName: rabbitmq-pvc
+      volumes:  
+      - name: rabbitmq-storage
+        persistentVolumeClaim:
+          claimName: rabbitmq-pvc
 
 ---
 
@@ -51,10 +51,12 @@ spec:
   selector:
     app: rabbitmq
   ports:
-    - protocol: TCP
+    - name: amqp  # Nome adicionado para a porta 5672
+      protocol: TCP
       port: 5672
       targetPort: 5672
-    - protocol: TCP
+    - name: management  # Nome adicionado para a porta 15672
+      protocol: TCP
       port: 15672
       targetPort: 15672
   type: LoadBalancer
