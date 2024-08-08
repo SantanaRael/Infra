@@ -16,23 +16,28 @@ spec:
     spec:
       automountServiceAccountToken: false
       containers:
-        - name: rabbitmq
-          image: rabbitmq:3-management
-          ports:
-            - containerPort: 5672  
-            - containerPort: 15672
-          env:
-            - name: RABBITMQ_DEFAULT_USER
-              value: "guest"
-            - name: RABBITMQ_DEFAULT_PASS
-              value: "guest"
-          resources:
-            requests:
-              memory: "128Mi"
-              cpu: "250m"
-            limits:
-              memory: "256Mi"
-              cpu: "500M"
+      - name: rabbitmq
+        image: rabbitmq:3-management
+        ports:
+        - containerPort: 5672  
+        - containerPort: 15672
+        env:
+        - name: RABBITMQ_DEFAULT_USER
+          value: "guest"
+        - name: RABBITMQ_DEFAULT_PASS
+          value: "guest"
+        resources:
+          limits:
+            memory: "512Mi"
+          requests:
+            memory: "256Mi"
+        volumeMounts:
+        - name: rabbitmq-storage
+          mountPath: /var/lib/rabbitmq
+      volumes:
+      - name: rabbitmq-storage
+        persistentVolumeClaim:
+          claimName: rabbitmq-pvc
 
 ---
 
