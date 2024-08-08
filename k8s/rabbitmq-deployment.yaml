@@ -18,6 +18,11 @@ spec:
       containers:
       - name: rabbitmq
         image: rabbitmq:3-management
+        resources:
+          limits:
+            memory: "512Mi"
+          requests:
+            memory: "256Mi"
         ports:
         - containerPort: 5672  
         - containerPort: 15672
@@ -26,18 +31,13 @@ spec:
           value: "guest"
         - name: RABBITMQ_DEFAULT_PASS
           value: "guest"
-        resources:
-          limits:
-            memory: "512Mi"
-          requests:
-            memory: "256Mi"
         volumeMounts:
         - name: rabbitmq-storage
           mountPath: /var/lib/rabbitmq
-      volumes:
-      - name: rabbitmq-storage
-        persistentVolumeClaim:
-          claimName: rabbitmq-pvc
+        volumes:
+        - name: rabbitmq-storage
+          persistentVolumeClaim:
+            claimName: rabbitmq-pvc
 
 ---
 
