@@ -26,10 +26,10 @@ data "aws_security_group" "web-sg" {
 
 resource "aws_eks_cluster" "my_cluster" {
   name     = "cluster-terraform"
-  role_arn = "arn:aws:iam::669191048298:role/LabRole"
+  role_arn = "arn:aws:iam::268294222299:role/LabRole"
 
   vpc_config {
-    subnet_ids         = ["subnet-0908cefe074cb6df9", "subnet-075f8ffc0f6b44ff4"]
+    subnet_ids         = ["subnet-08bc1a514f133456f", "subnet-04fb0399959637664"]
     security_group_ids = [data.aws_security_group.web-sg.id]
   }
 }
@@ -39,10 +39,10 @@ resource "aws_eks_node_group" "my_node_group" {
 
   cluster_name    = aws_eks_cluster.my_cluster.name
   node_group_name = "my-nodegroup-terraform"
-  subnet_ids      = ["subnet-0908cefe074cb6df9", "subnet-075f8ffc0f6b44ff4"]
+  subnet_ids      = ["subnet-08bc1a514f133456f", "subnet-04fb0399959637664"]
   instance_types  = ["m6g.large"]
   ami_type        = "AL2_ARM_64"
-  node_role_arn   = "arn:aws:iam::669191048298:role/LabRole"
+  node_role_arn   = "arn:aws:iam::268294222299:role/LabRole"
   scaling_config {
     min_size     = 1
     desired_size = 2
